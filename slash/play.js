@@ -4,7 +4,7 @@ const { QueryType } = require("discord-player")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("playyyy")
+        .setName("playy")
         .setDescription("no earrape or i rape ur mom :flushed:")
         .addStringOption((option) => option.setName("thing").setDescription("thing").setRequired(true)),
 
@@ -12,7 +12,9 @@ module.exports = {
         if (!interaction.member.voice.channel)
             return interaction.editReply("u need to be in vc bro")
 
-        const queue = await client.player.createQueue(interaction.guild)
+        const queue = await client.player.createQueue(interaction.guild, {
+            leaveOnEnd: false
+        })
         if (!queue.connection) await queue.connect(interaction.member.voice.channel)
 
         let embed = new EmbedBuilder()

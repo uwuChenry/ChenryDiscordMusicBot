@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("stop")
+        .setName("stopp")
         .setDescription("stop"),
     run: async ({client, interaction}) => {
         const queue = client.player.getQueue(interaction.guildId)

@@ -8,6 +8,7 @@ const { Routes } = require("discord.js")
 
 
 
+
 dotenv.config()
 const TOKEN = process.env.TOKEN
 
@@ -21,8 +22,6 @@ const client = new Discord.Client({
     intents: [
         "Guilds",
         "GuildVoiceStates",
-        "GuildMessages",
-        "MessageContent"
     ]
 })
 
@@ -30,9 +29,10 @@ client.slashcommands = new Discord.Collection()
 client.player = new Player(client, {
     ytdlOptions: {
         quality: "highestaudio",
-        highWaterMark: 1 << 25
+        highWaterMark: 1 << 30
     }
 })
+
 
 let commands = []
 
@@ -46,7 +46,7 @@ for (const file of slashFiles) {
 if (LOAD_SLASH) {
     const rest = new REST({ version: "9" }).setToken(TOKEN)
     console.log("Deploying slash commands")
-    rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands })
+    rest.put(Routes.applicationCommands(CLIENT_ID), { body: commands })
         .then(() => {
             console.log("Successfully loaded")
             process.exit(0)

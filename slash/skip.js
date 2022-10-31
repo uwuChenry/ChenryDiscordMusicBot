@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("skip")
+        .setName("skipp")
         .setDescription("skip"),
     run: async ({client, interaction}) => {
         const queue = client.player.getQueue(interaction.guildId)
