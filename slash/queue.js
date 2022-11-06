@@ -28,8 +28,8 @@ module.exports = {
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
-                    .setDescription(`**Currently Playing** \n ` +
-                    (currentSong? `\`[${currentSong.duration}]\` ${currentSong.title} -- <@${currentSong.requestedBy.id}>` : "None" ) + 
+                    .setDescription(`**Currently Playing** \n\n ` +
+                    (currentSong? `\`[${currentSong.duration}]\` **${currentSong.title} --** <@${currentSong.requestedBy.id}>` : "None" ) + 
                     `\n\n**Queue**\n${queueString}`
                     )
                     .setFooter({

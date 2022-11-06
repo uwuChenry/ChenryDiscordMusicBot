@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("skipp")
@@ -10,8 +11,9 @@ module.exports = {
         if (!queue) return await interaction.editReply("there are no songs bro")
 
         
+        song = queue.nowPlaying()
 
         queue.skip()
-        await interaction.editReply("skipped")
+        await interaction.editReply(`skipped **${song.title}**`)
     }
 }
