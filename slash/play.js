@@ -36,13 +36,15 @@ module.exports = {
         song = result.playlist ? result.playlist : result.tracks[0]
         if (result.playlist){
             embed
-                .setDescription(`**${result.tracks.length} songs from [${result.playlist.title}](${result.playlist.url})** has been added to the queue`)
+                .setDescription(`**${result.tracks.length}** songs from **[${result.playlist.title}](${result.playlist.url})** has been added to the queue`)
+                .setColor("#d6c2ce")
         }
         else {
             embed
             .setDescription(`**[${song.title}](${song.url})** has been added to the queue`)
             .setThumbnail(song.thumbnail)
             .setFooter({ text: `Duration: ${song.duration}` })
+            .setColor("#d6c2ce")
         }
 
         if (!queue.playing) await queue.play()

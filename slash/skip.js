@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
-
+const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,6 +14,12 @@ module.exports = {
         song = queue.nowPlaying()
 
         queue.skip()
-        await interaction.editReply(`skipped **${song.title}**`)
+        await interaction.editReply({
+            embeds: [
+                new EmbedBuilder()
+                    .setDescription(`skipped **${song.title}**`)
+                    .setColor("#d6c2ce")
+            ]
+        })
     }
 }

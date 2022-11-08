@@ -38,6 +38,7 @@ module.exports = {
             .setDescription(`**[${song.title}](${song.url})** has been added to the top of the queue`)
             .setThumbnail(song.thumbnail)
             .setFooter({ text: `Duration: ${song.duration}` })
+            .setColor("#d6c2ce")
         
 
         if (!queue.playing) await queue.play()

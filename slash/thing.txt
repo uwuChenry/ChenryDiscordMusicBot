@@ -11,7 +11,7 @@ module.exports = {
                 .setName("song")
                 .setDescription("give me the youtube link pls no earrape bro")
                 .addStringOption((option) => option.setName("url").setDescription("the song's url").setRequired(true))
-        )
+        ) 
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("playlist")

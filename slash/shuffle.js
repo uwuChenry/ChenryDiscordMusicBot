@@ -14,11 +14,15 @@ module.exports = {
         
         if (!queue || !queue.playing) return interaction.editReply("theres no music bro wdym")
 
-        let embed = new EmbedBuilder()
-
         await queue.shuffle()
 
-        interaction.editReply("queue shuffled")
+        await interaction.editReply({
+            embeds: [
+                new EmbedBuilder()
+                    .setDescription(`Queue Shuffled`)
+                    .setColor("#d6c2ce")
+            ]
+        })
         
     },
 }
