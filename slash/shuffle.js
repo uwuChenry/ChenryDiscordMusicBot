@@ -12,7 +12,7 @@ module.exports = {
 
         const queue = await client.player.getQueue(interaction.guild)
         
-        if (!queue || !queue.playing) return interaction.editReply("theres no music bro wdym")
+        if (!queue) return interaction.editReply("theres no music bro wdym")
 
         await queue.shuffle()
 

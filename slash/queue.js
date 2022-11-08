@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { EmbedBuilder } = require("discord.js")
+const { QueueRepeatMode } = require('discord-player')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,20 +21,27 @@ module.exports = {
             return await interaction.editReply(`invalid page there are only ${totalPages} pages`)
 
         const queueString = queue.tracks.slice(page * 10, page * 10 + 10).map((song, i) => {
-            return `\n${page * 10 + i + 1}. \`[${song.duration}]\` ${song.title}${song.url} -- <@${song.requestedBy.id}>`
+            return `\n${page * 10 + i + 1}. \`[${song.duration}]\` [${song.title}](${song.url}) - <@${song.requestedBy.id}>`
         })
 
         const currentSong = queue.nowPlaying()
 
+        const loopMode = queue.repeatMode
+        const msg = loopMode === QueueRepeatMode.QUEUE ? "playlist" : loopMode === QueueRepeatMode.TRACK? "single" : "off"
+
+
+        const progress = queue.getPlayerTimestamp()
+
+
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
-                    .setDescription(`**Currently Playing** \n\n ` +
-                    (currentSong? `\`[${currentSong.duration}]\` **[${currentSong.title}](${currentSong.url}) --** <@${currentSong.requestedBy.id}>` : "None" ) + 
-                    `\n\n**Queue**\n${queueString}`
+                    .setDescription(
+                    (currentSong? `**Currently Playing** \n \`[${progress.current} / ${progress.end}]\` **[${currentSong.title}](${currentSong.url}) -** <@${currentSong.requestedBy.id}>` : "None" ) + 
+                    `\n\n**Queue**${queueString}`
                     )
                     .setFooter({
-                        text: `Page ${page + 1} of ${totalPages}`
+                        text: `Page ${page + 1} of ${totalPages} | Loop: ${msg}`
                     })
                     .setColor("#d6c2ce")
 
