@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("removee")
+        .setName("remove")
         .setDescription("remove thing from queue (number) pls")
         .addNumberOption((option) => option.setName("number").setDescription("song number u wana remove").setRequired(true)),
     run: async ({client, interaction}) => {
@@ -20,7 +20,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setDescription(`removed **${song.title}**`)
                     .setColor("#d6c2ce")
-                    .setFooter(`There are ${thing} songs in the queue`)
+                    .setFooter({text: `There are ${thing} songs in the queue`})
             ]
         })
     }

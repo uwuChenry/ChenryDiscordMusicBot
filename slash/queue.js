@@ -21,7 +21,7 @@ module.exports = {
             return await interaction.editReply(`invalid page there are only ${totalPages} pages`)
 
         const queueString = queue.tracks.slice(page * 10, page * 10 + 10).map((song, i) => {
-            return `\n${page * 10 + i + 1}. \`[${song.duration}]\` [${song.title}](${song.url}) - <@${song.requestedBy.id}>`
+            return `\n${page * 10 + i + 1}. \`[${song.duration}]\` ${song.title} - <@${song.requestedBy.id}>`
         })
 
         const currentSong = queue.nowPlaying()

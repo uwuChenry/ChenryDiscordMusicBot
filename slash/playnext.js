@@ -4,7 +4,7 @@ const { QueryType } = require("discord-player")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("playnextt")
+        .setName("playnext")
         .setDescription("playnext")
         .addStringOption((option) => option.setName("thing").setDescription("thing").setRequired(true)),
 

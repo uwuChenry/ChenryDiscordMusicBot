@@ -22,7 +22,6 @@ module.exports = {
         let loopMode = interaction.options.getInteger("asdf")
         queue.setRepeatMode(loopMode)
         const msg = loopMode === QueueRepeatMode.QUEUE ? "playlist" : loopMode === QueueRepeatMode.TRACK? "single" : "off"
-        //await interaction.editReply(`loop mode has been set to **${msg}**`)
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
@@ -30,6 +29,5 @@ module.exports = {
                     .setColor("#d6c2ce")
             ]
         })
-        //await interaction.editReply(`mode oaoaoa ${loopMode}`)
     }
 }

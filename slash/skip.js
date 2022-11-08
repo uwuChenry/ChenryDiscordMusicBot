@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("skipp")
+        .setName("skip")
         .setDescription("skip"),
     run: async ({client, interaction}) => {
         const queue = client.player.getQueue(interaction.guildId)

@@ -24,10 +24,8 @@ module.exports = {
                 new EmbedBuilder()
                     .setDescription(`**Now Playing: ${currentSong.title}** \n\n ${progress.current} / ${progress.end}`)
                     .setColor("#d6c2ce")
-                    .setThumbnail(currentSong.thumbnail)
-                    .setFooter(`Loop: ${msg}`)
+                    .setFooter({text: `Loop: ${msg}`})
             ]
         })
     }
-
 }

@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("shufflee")
+        .setName("shuffle")
         .setDescription("shuffle the playlist u dumbass"),
 
     run: async ({ client, interaction }) => {

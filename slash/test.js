@@ -5,8 +5,6 @@ module.exports = {
         .setName("ooaa")
         .setDescription("monkey"),
     run: async ({client, interaction}) => {
-
-        
         await interaction.editReply("lmao imagine typing this ")
     }
 }
