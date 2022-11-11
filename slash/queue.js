@@ -2,6 +2,37 @@ const { SlashCommandBuilder } = require("@discordjs/builders")
 const { EmbedBuilder } = require("discord.js")
 const { QueueRepeatMode } = require('discord-player')
 
+function  songDurationMS(duration) { 
+    const times = (n, t) => { 
+        let tn = 1; 
+        for (let i = 0; i < t; i++) tn *= n; 
+        return t <= 0 ? 1000 : tn * 1000; 
+    }; 
+
+    return duration 
+        .split(":") 
+        .reverse() 
+        .map((m, i) => parseInt(m) * times(60, i)) 
+        .reduce((a, c) => a + c, 0); 
+}
+
+function msToTime(duration) {
+    var
+      seconds = Math.floor((duration / 1000) % 60),
+      minutes = Math.floor((duration / (1000 * 60)) % 60),
+      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+  
+    return hours + ":" + minutes + ":" + seconds;
+  }
+
+function stringLimit(string = '', limit = 100){
+    return string.substring(0, limit);
+}
+
 module.exports = {
     data: new SlashCommandBuilder()
     .setName("queue")
@@ -21,7 +52,8 @@ module.exports = {
             return await interaction.editReply(`invalid page there are only ${totalPages} pages`)
 
         const queueString = queue.tracks.slice(page * 10, page * 10 + 10).map((song, i) => {
-            return `\n${page * 10 + i + 1}. \`[${song.duration}]\` ${song.title} - <@${song.requestedBy.id}>`
+            //let limitedTitle = stringLimit(song.title, 50);
+            return `\n\`${page * 10 + i + 1}.\` [${song.duration}] ${song.title} - <@${song.requestedBy.id}>`
         })
 
         const currentSong = queue.nowPlaying()
@@ -32,19 +64,25 @@ module.exports = {
 
         const progress = queue.getPlayerTimestamp()
 
+        var totalTimeInMs = 0;
+        for (let i = 0; i < queue.tracks.length; i++){
+            totalTimeInMs += songDurationMS(queue.tracks[i].duration);
+        }
+        totalTimeInMs -= songDurationMS(progress.current);
+        const timeRemaining = msToTime(totalTimeInMs);
+
 
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setDescription(
-                    (currentSong? `**Currently Playing** \n \`[${progress.current} / ${progress.end}]\` **[${currentSong.title}](${currentSong.url}) -** <@${currentSong.requestedBy.id}>` : "None" ) + 
+                    (currentSong? `**Currently Playing** \n \`[${progress.current} / ${progress.end}]\` **[${currentSong.title}](${currentSong.url})** \n Requested by: <@${currentSong.requestedBy.id}>` : "None" ) + 
                     `\n\n**Queue**${queueString}`
                     )
                     .setFooter({
-                        text: `Page ${page + 1} of ${totalPages} | Loop: ${msg}`
+                        text: `Page ${page + 1} of ${totalPages} | ${queue.tracks.length} songs, ${timeRemaining} remaining | Loop: ${msg}`
                     })
                     .setColor("#d6c2ce")
-
             ]
         })
     }
