@@ -1,8 +1,10 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { EmbedBuilder } = require("discord.js")
 const { QueueRepeatMode } = require('discord-player')
+const width = require('string-width')
 
-function  songDurationMS(duration) { 
+
+function songDurationMS(duration) { 
     const times = (n, t) => { 
         let tn = 1; 
         for (let i = 0; i < t; i++) tn *= n; 
@@ -29,8 +31,12 @@ function msToTime(duration) {
     return hours + ":" + minutes + ":" + seconds;
   }
 
-function stringLimit(string = '', limit = 100){
-    return string.substring(0, limit);
+function trimToWidth(str, length) {
+    const msgWidth = width(str);
+    if (msgWidth > length) {
+        str = str.slice(0, (-msgWidth + length)) + "...";
+    }
+    return str;
 }
 
 module.exports = {
@@ -52,8 +58,12 @@ module.exports = {
             return await interaction.editReply(`invalid page there are only ${totalPages} pages`)
 
         const queueString = queue.tracks.slice(page * 10, page * 10 + 10).map((song, i) => {
-            //let limitedTitle = stringLimit(song.title, 50);
-            return `\n\`${page * 10 + i + 1}.\` [${song.duration}] ${song.title} - <@${song.requestedBy.id}>`
+            let message = song.title;
+            let msgWidth = width(message);
+            if (msgWidth > 52){
+                message = message.slice(0, -msgWidth + 52) + "..."
+            }
+            return `\n\`${page * 10 + i + 1}.\` [${song.duration}] ${message} - <@${song.requestedBy.id}>`
         })
 
         const currentSong = queue.nowPlaying()
@@ -70,14 +80,14 @@ module.exports = {
         }
         totalTimeInMs -= songDurationMS(progress.current);
         const timeRemaining = msToTime(totalTimeInMs);
-
+        
 
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setDescription(
                     (currentSong? `**Currently Playing** \n \`[${progress.current} / ${progress.end}]\` **[${currentSong.title}](${currentSong.url})** \n Requested by: <@${currentSong.requestedBy.id}>` : "None" ) + 
-                    `\n\n**Queue**${queueString}`
+                    `\n\n**Queue**${queueString}` 
                     )
                     .setFooter({
                         text: `Page ${page + 1} of ${totalPages} | ${queue.tracks.length} songs, ${timeRemaining} remaining | Loop: ${msg}`
@@ -86,5 +96,4 @@ module.exports = {
             ]
         })
     }
-
 }

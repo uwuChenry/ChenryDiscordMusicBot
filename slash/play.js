@@ -72,7 +72,7 @@ module.exports = {
         if (!result || !result.tracks.length) return interaction.editReply("nothing found")
 
         result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0])
-
+        
         song = result.playlist ? result.playlist : result.tracks[0]
         if (result.playlist){
             embed
@@ -83,7 +83,7 @@ module.exports = {
             embed
             .setDescription(`**[${song.title}](${song.url})** has been added to the queue`)
             .setThumbnail(song.thumbnail)
-            .setFooter({ text: `Duration: ${song.duration}` + (queue.playing? ` | ${timeRemaining} until playback` : "None")})
+            .setFooter({ text: `Duration: ${song.duration}` + (queue.playing? ` | ${timeRemaining} until playback` : " ")})
             .setColor("#d6c2ce")
         }
 

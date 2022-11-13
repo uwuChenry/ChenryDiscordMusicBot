@@ -11,16 +11,27 @@ module.exports = {
 
         if (!queue) return await interaction.editReply("theres no songs bro")
 
-        thing = (interaction.options.getNumber("number") - 1)
-        song = queue.tracks[thing]
+        const thing = (interaction.options.getNumber("number") - 1)
+        if (thing > queue.tracks.length){
+            await interaction.editReply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`bro its none existent`)
+                    .setColor("#d6c2ce")
+                    .setFooter({text: `use some brain dude`})
+                ]
+            })
+            return
+        }
+        const song = queue.tracks[thing]
         queue.remove(thing)
-        const thing = queue.tracks.length
+        const length = queue.tracks.length
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setDescription(`removed **${song.title}**`)
                     .setColor("#d6c2ce")
-                    .setFooter({text: `There are ${thing} songs in the queue`})
+                    .setFooter({text: `There are ${length} songs in the queue`})
             ]
         })
     }
