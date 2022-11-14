@@ -70,8 +70,20 @@ module.exports = {
             });
         
         if (!result || !result.tracks.length) return interaction.editReply("nothing found")
+//new
+        if (result.playlist){
+            if (!result.tracks.length || result.tracks.length < 2) return;
 
-        result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0])
+            for (let i = result.tracks.length -1; i > 0; i--){
+                const j = Math.floor(Math.random() * (i + 1));
+                [result.tracks[i], result.tracks[j]] = [result.tracks[j], result.tracks[i]]
+            }
+            queue.addTracks(result.tracks);
+        }
+        if (!result.playlist){
+            queue.addTrack(result.tracks[0]);
+        }
+        //result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0])
         
         song = result.playlist ? result.playlist : result.tracks[0]
         if (result.playlist){
