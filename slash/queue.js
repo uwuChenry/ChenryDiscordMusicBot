@@ -30,14 +30,15 @@ function msToTime(duration) {
   
     return hours + ":" + minutes + ":" + seconds;
   }
-
+/*
 function trimToWidth(str, length) {
-    const msgWidth = width(str);
+    let out = str;
+    let msgWidth = width(str);
     if (msgWidth > length) {
-        str = str.slice(0, (-msgWidth + length)) + "...";
+        out = out.slice(0, (-msgWidth + length)) + "...";
     }
-    return str;
-}
+    return out;
+}*/
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -63,6 +64,7 @@ module.exports = {
             if (msgWidth > 52){
                 message = message.slice(0, -msgWidth + 52) + "..."
             }
+            //let message = trimToWidth(song.title);
             return `\n\`${page * 10 + i + 1}.\` [${song.duration}] ${message} - <@${song.requestedBy.id}>`
         })
 

@@ -85,6 +85,7 @@ if (LOAD_SLASH || UNLOAD_SLASH) {
 else {
     client.on("ready", () => {
         console.log(`Logged in as ${client.user.tag}`)
+        client.user.setActivity(`monkeys at school`, {type: Discord.ActivityType.Watching})
     })
     client.on("interactionCreate", (interaction) => {
         async function handleCommand() {
